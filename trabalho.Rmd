@@ -22,17 +22,65 @@ library(DiagrammeR)
 # Projetos
 
 ```{r}
-grViz(" 
 graph ER {
 	layout=neato
-	node [shape=box]; 
-	    course; institute; student;
-	node [shape=ellipse]; {node [label=name] name0; name1; name2;}
-		code; grade; number;
-	node [shape=diamond,style=filled,color=lightgrey]; 
+	node [shape=box]; Aluguel; Veículo; Loja; Funcionário; Cliente;
+	node [shape=ellipse]; {node [label="Nome"] nome0; nome1;}
+	    ID_Cliente; Tipo;
+	    {node [label="Situação"] ST0; ST1; ST2}
+	    {node [label="ID_Loja"] IDL0; IDL1; IDL2}
+	    {node [label="Passaporte"] PSP0; PSP1;}
+	    ID_Funcionário; Cargo; Salário;
+	    Cidade; Pais;
+	    ID_Veículo; Marca; Modelo
+	    {node [label="Endereço"] Addr0; Addr1; Addr2;}
+	node [shape=diamond,style=filled,color=lightgrey]; "Trabalha"; "Aluga"; "Paga"; "Atende"; "Pertence"; "Faz Contrato"
 
-	name0 -- course;
-	code -- course;
+	
+	Aluguel -- "Paga" [label="n",len=1.00];
+	"Paga" -- Cliente [label="1",len=1.00];
+	Funcionário -- "Trabalha" [label="1",len=1.00];
+	"Trabalha" -- Loja [label="1",len=1.00];
+	Funcionário -- "Atende"[label="1",len=1.00]
+	"Atende" -- Cliente [label="n",len=1.00];
+	Funcionário -- "Faz Contrato" [label="1",len=1.00];
+	"Faz Contrato" -- Aluguel [label="n",len=1.00];
+	Veículo -- "Pertence" [label="n",len=1.00];
+	"Pertence" -- Loja [label="1",len=1.00];
+	Cliente -- "Aluga" [label="n",len=1.00];
+	"Aluga" -- Veículo [label="m",len=1.00];
+	
+	Cliente -- ID_Cliente; #Sublinhar
+	Cliente -- Tipo
+	Cliente -- nome0;
+	Cliente -- PSP0;
+	Cliente -- ST0;
+	Cliente -- Addr0;
+	
+	Funcionário -- ID_Funcionário; #Sublinhar
+	Funcionário -- IDL0;
+	Funcionário -- nome1;
+	Funcionário -- PSP1;
+	Funcionário -- ST1;
+	Funcionário -- Cargo;
+	Funcionário -- Salário;
+	Funcionário -- Addr1;
+	
+	Loja -- IDL1; #Sublinhar
+	Loja -- Cidade;
+	Loja -- Pais;
+	Loja -- Addr2;
+	
+	Veículo -- ID_Veículo; #Sublinhar
+	Veículo -- IDL2;
+	Veículo -- Marca;
+	Veículo -- Modelo
+	Veículo -- ST2;
+	
+
+
+	label = "\n\Diagrama ER Alugel de veículos";
+	fontsize=20;
 }
 ")
 ```
